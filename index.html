@@ -14,17 +14,6 @@
             scroll-behavior: smooth;
         }
 
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #e2e8f0;
-            border-radius: 10px;
-        }
-
         .glass-morphism {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(12px);
@@ -39,6 +28,21 @@
 
         .animate-float {
             animation: float 4s ease-in-out infinite;
+        }
+
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
     </style>
 </head>
@@ -123,22 +127,22 @@
     <section id="solutions" class="bg-white py-24 border-y border-slate-100">
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-3 gap-12">
-                <div class="space-y-4">
-                    <div class="w-14 h-14 bg-blue-50 text-blue-600 flex items-center justify-center rounded-2xl">
+                <div class="space-y-4 text-center md:text-left">
+                    <div class="mx-auto md:mx-0 w-14 h-14 bg-blue-50 text-blue-600 flex items-center justify-center rounded-2xl">
                         <i data-lucide="zap"></i>
                     </div>
                     <h3 class="text-2xl font-black">Real-time Monitoring</h3>
                     <p class="text-slate-500 font-medium leading-relaxed">See exactly where every watt goes in real-time with our proprietary smart grid technology.</p>
                 </div>
-                <div class="space-y-4">
-                    <div class="w-14 h-14 bg-green-50 text-green-600 flex items-center justify-center rounded-2xl">
+                <div class="space-y-4 text-center md:text-left">
+                    <div class="mx-auto md:mx-0 w-14 h-14 bg-green-50 text-green-600 flex items-center justify-center rounded-2xl">
                         <i data-lucide="leaf"></i>
                     </div>
                     <h3 class="text-2xl font-black">Eco-Optimization</h3>
-                    <p class="text-slate-500 font-medium leading-relaxed">Volty automatically switches high-power devices to solar when production peaks and rates drop.</p>
+                    <p class="text-slate-500 font-medium leading-relaxed">Our AI automatically switches high-power devices to solar when production peaks and rates drop.</p>
                 </div>
-                <div class="space-y-4">
-                    <div class="w-14 h-14 bg-purple-50 text-purple-600 flex items-center justify-center rounded-2xl">
+                <div class="space-y-4 text-center md:text-left">
+                    <div class="mx-auto md:mx-0 w-14 h-14 bg-purple-50 text-purple-600 flex items-center justify-center rounded-2xl">
                         <i data-lucide="bell"></i>
                     </div>
                     <h3 class="text-2xl font-black">Smart Alerts</h3>
@@ -155,7 +159,7 @@
                 <i data-lucide="sparkles" class="w-4 h-4"></i> Powered by Gemini
             </div>
             <h2 class="text-5xl font-black mb-6 leading-tight">Draft Your Custom <span class="text-blue-400">AI Energy Plan</span></h2>
-            <p class="text-blue-100 text-lg mb-12 opacity-80 font-medium">Describe your home setup, and Volty will generate a high-tech efficiency strategy for you.</p>
+            <p class="text-blue-100 text-lg mb-12 opacity-80 font-medium">Describe your home setup, and our AI will generate a high-tech efficiency strategy for you.</p>
             
             <div class="bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/10 text-left shadow-2xl">
                 <div class="flex flex-col md:flex-row gap-4 mb-6">
@@ -226,68 +230,12 @@
         </div>
     </footer>
 
-    <!-- Volty Chat Widget -->
-    <div id="chat-container" class="fixed bottom-8 right-8 z-[100] group">
-        <!-- Chat Window -->
-        <div id="chat-window" class="hidden w-[380px] h-[550px] bg-white rounded-[2.5rem] shadow-2xl border border-slate-200 flex flex-col overflow-hidden mb-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
-            <div class="bg-blue-600 p-6 flex justify-between items-center text-white">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center relative">
-                        <i data-lucide="zap" class="fill-white w-6 h-6"></i>
-                        <div class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-400 border-2 border-blue-600 rounded-full"></div>
-                    </div>
-                    <div>
-                        <h4 class="font-black leading-tight">Volty AI</h4>
-                        <p class="text-[10px] uppercase font-black opacity-70 tracking-widest">Online & Ready</p>
-                    </div>
-                </div>
-                <button id="close-chat" class="hover:bg-white/10 p-2 rounded-full transition-colors">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-            
-            <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-4 bg-slate-50 custom-scrollbar text-sm font-medium">
-                <div class="flex justify-start">
-                    <div class="bg-white p-4 rounded-2xl rounded-tl-none border border-slate-200 shadow-sm max-w-[85%]">
-                        Hi! I'm Volty. Powered by Gemini, I can help you understand your energy bills or optimize your home grid. ⚡
-                    </div>
-                </div>
-            </div>
-
-            <div id="typing-indicator" class="hidden px-6 py-2">
-                <div class="flex gap-1">
-                    <div class="w-1.5 h-1.5 bg-blue-300 rounded-full animate-bounce"></div>
-                    <div class="w-1.5 h-1.5 bg-blue-300 rounded-full animate-bounce [animation-delay:0.2s]"></div>
-                    <div class="w-1.5 h-1.5 bg-blue-300 rounded-full animate-bounce [animation-delay:0.4s]"></div>
-                </div>
-            </div>
-
-            <form id="chat-form" class="p-4 bg-white border-t border-slate-100 flex gap-3">
-                <input 
-                    id="chat-input"
-                    type="text" 
-                    placeholder="Ask Volty anything..."
-                    class="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-blue-400 transition-all font-medium"
-                >
-                <button type="submit" class="bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700 transition-all active:scale-90 shadow-md shadow-blue-100">
-                    <i data-lucide="send" class="w-5 h-5"></i>
-                </button>
-            </form>
-        </div>
-
-        <!-- Chat Toggle Button -->
-        <button id="chat-toggle" class="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center shadow-2xl hover:shadow-blue-300 hover:scale-110 active:scale-95 transition-all group overflow-hidden">
-            <i data-lucide="message-circle" class="w-8 h-8 relative z-10"></i>
-            <div class="absolute inset-0 bg-gradient-to-tr from-blue-700 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-        </button>
-    </div>
-
     <script>
         // Initialize Icons
         lucide.createIcons();
 
-        // Gemini API Config
-        const apiKey = ""; // Environment provides this at runtime
+        // Gemini API Configuration
+        const apiKey = ""; // The environment provides the key at runtime.
         const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
 
         /**
@@ -307,17 +255,17 @@
                 if (!response.ok) throw new Error('API Error');
                 
                 const data = await response.json();
-                return data.candidates?.[0]?.content?.parts?.[0]?.text || "I'm having a little power surge. Try again!";
+                return data.candidates?.[0]?.content?.parts?.[0]?.text || "Strategy generation currently unavailable. Please try again.";
             } catch (error) {
                 if (retries > 0) {
                     await new Promise(r => setTimeout(r, delay));
                     return callGemini(prompt, systemInstruction, retries - 1, delay * 2);
                 }
-                return "I couldn't connect to my AI core. Check your connection! ⚡";
+                return "I couldn't connect to the AI core. Check your connection! ⚡";
             }
         }
 
-        // --- ECO PLAN GENERATOR ---
+        // --- ECO PLAN GENERATOR LOGIC ---
         const planInput = document.getElementById('plan-input');
         const planBtn = document.getElementById('generate-plan-btn');
         const planResult = document.getElementById('plan-result');
@@ -328,10 +276,16 @@
             if (!description) return;
 
             planBtn.disabled = true;
-            planBtn.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+            planBtn.innerHTML = `
+                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>Calculating...</span>
+            `;
 
             const prompt = `User Home Setup: "${description}". Generate a personalized 3-step energy efficiency strategy for them. Be specific and high-tech.`;
-            const systemPrompt = "You are Voltora's AI planning engine. Be professional, technical yet accessible, and structured.";
+            const systemPrompt = "You are Voltora's AI planning engine. Provide clear, professional, and actionable energy advice.";
             
             const result = await callGemini(prompt, systemPrompt);
             
@@ -340,51 +294,9 @@
             planBtn.disabled = false;
             planBtn.innerHTML = `<i data-lucide="zap" class="w-5 h-5 fill-current"></i><span>Generate Plan</span>`;
             lucide.createIcons();
-        });
-
-        // --- CHATBOT LOGIC ---
-        const chatToggle = document.getElementById('chat-toggle');
-        const closeChat = document.getElementById('close-chat');
-        const chatWindow = document.getElementById('chat-window');
-        const chatForm = document.getElementById('chat-form');
-        const chatInput = document.getElementById('chat-input');
-        const chatMessages = document.getElementById('chat-messages');
-        const typingIndicator = document.getElementById('typing-indicator');
-
-        chatToggle.addEventListener('click', () => {
-            chatWindow.classList.toggle('hidden');
-        });
-
-        closeChat.addEventListener('click', () => {
-            chatWindow.classList.add('hidden');
-        });
-
-        function addMessage(text, sender) {
-            const div = document.createElement('div');
-            div.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'}`;
-            div.innerHTML = `
-                <div class="${sender === 'user' ? 'bg-blue-600 text-white rounded-tr-none' : 'bg-white border border-slate-200 text-slate-700 rounded-tl-none shadow-sm'} p-4 rounded-2xl max-w-[85%]">
-                    ${text}
-                </div>
-            `;
-            chatMessages.appendChild(div);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        chatForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const message = chatInput.value.trim();
-            if (!message) return;
-
-            addMessage(message, 'user');
-            chatInput.value = '';
-            typingIndicator.classList.remove('hidden');
-
-            const systemPrompt = "You are Volty, the friendly and witty AI assistant for Voltora. Help users with energy questions. Keep responses under 3 sentences. No markdown headers.";
-            const response = await callGemini(message, systemPrompt);
-
-            typingIndicator.classList.add('hidden');
-            addMessage(response, 'bot');
+            
+            // Scroll to the result
+            planResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         });
     </script>
 </body>
