@@ -4,69 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voltora | The Future of Smart Energy</title>
+    
+    <!-- Robust CDN loading with Fallback check -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Standard CSS Fallback in case Tailwind CDN is blocked -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
         
+        :root {
+            --voltora-blue: #2563eb;
+            --voltora-dark: #0f172a;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+            color: #0f172a;
+            line-height: 1.5;
         }
 
-        .glass-morphism {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .animate-float {
-            animation: float 4s ease-in-out infinite;
-        }
-
-        /* Custom scrollbar for a cleaner look */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
+        /* Basic Structural Fallback if Tailwind fails */
+        nav { background: white; border-bottom: 1px solid #e2e8f0; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
+        .hero { padding: 80px 5%; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; }
+        .hero-content { flex: 1; min-width: 300px; }
+        .btn-primary { background: var(--voltora-blue); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: bold; cursor: pointer; }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; padding: 60px 5%; background: white; }
+        
+        /* Interactive Planner Styles */
+        .planner-section { background: #1e3a8a; color: white; padding: 80px 5%; text-align: center; }
+        .planner-container { max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.05); padding: 40px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); text-align: left; }
+        input[type="text"] { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 15px; box-sizing: border-box; }
+        
+        /* Animations */
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .animate-float { animation: float 4s ease-in-out infinite; }
     </style>
+
+    <script>
+        // Tailwind Configuration to ensure it works even in restricted environments
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            voltora: {
+                                blue: '#2563eb',
+                                dark: '#0f172a',
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 <body class="bg-slate-50 text-slate-900">
 
     <!-- Navigation -->
-    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <nav class="bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-50 px-6 py-4">
+        <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center gap-2 text-2xl font-black text-blue-600">
                 <i data-lucide="zap" class="fill-current"></i>
                 <span>Voltora</span>
             </div>
             <div class="hidden md:flex gap-10 font-bold text-slate-500 text-sm">
-                <a href="#solutions" class="hover:text-blue-600 transition-colors">Solutions</a>
-                <a href="#planner" class="hover:text-blue-600 transition-colors">Eco-Planner</a>
-                <a href="#" class="hover:text-blue-600 transition-colors">Business</a>
-                <a href="#" class="hover:text-blue-600 transition-colors">Support</a>
+                <a href="#solutions" class="hover:text-blue-600">Solutions</a>
+                <a href="#planner" class="hover:text-blue-600">Eco-Planner</a>
+                <a href="#" class="hover:text-blue-600">Support</a>
             </div>
-            <div class="flex items-center gap-4">
-                <button class="text-sm font-bold text-slate-600 hover:text-blue-600">Login</button>
-                <button class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all active:scale-95">
-                    Join Now
-                </button>
-            </div>
+            <button class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all">
+                Join Now
+            </button>
         </div>
     </nav>
 
@@ -80,10 +92,10 @@
                 The future of energy is <span class="text-blue-600">smarter.</span>
             </h1>
             <p class="text-xl text-slate-500 max-w-lg font-medium leading-relaxed">
-                Connect your home to the grid of tomorrow. Save up to 25% on bills with AI-driven optimization and sustainable power.
+                Connect your home to the grid of tomorrow. Save up to 25% on bills with AI-driven optimization.
             </p>
             <div class="flex gap-4 pt-4">
-                <button class="bg-blue-600 text-white px-8 py-4 rounded-2xl text-lg font-bold hover:shadow-2xl hover:-translate-y-1 transition-all">
+                <button class="bg-blue-600 text-white px-8 py-4 rounded-2xl text-lg font-bold hover:shadow-2xl transition-all">
                     Get Started
                 </button>
                 <button class="bg-white border-2 border-slate-200 text-slate-700 px-8 py-4 rounded-2xl text-lg font-bold hover:bg-slate-50 transition-all">
@@ -96,28 +108,16 @@
             <div class="w-full aspect-square bg-blue-100 rounded-[3rem] overflow-hidden flex items-center justify-center p-12 relative">
                 <div class="bg-white p-8 rounded-3xl shadow-2xl w-full transform rotate-3 relative z-10">
                     <div class="flex justify-between items-center mb-8">
-                        <div>
-                            <h3 class="font-black text-xl">Weekly Usage</h3>
-                            <p class="text-xs text-slate-400">Real-time grid analytics</p>
-                        </div>
+                        <h3 class="font-black text-xl">Weekly Usage</h3>
                         <i data-lucide="bar-chart-3" class="text-blue-600"></i>
                     </div>
                     <div class="flex items-end gap-3 h-48">
                         <div class="flex-1 bg-blue-100 rounded-t-xl" style="height: 40%"></div>
                         <div class="flex-1 bg-blue-200 rounded-t-xl" style="height: 65%"></div>
-                        <div class="flex-1 bg-blue-300 rounded-t-xl" style="height: 45%"></div>
                         <div class="flex-1 bg-blue-600 rounded-t-xl shadow-lg" style="height: 90%"></div>
-                        <div class="flex-1 bg-blue-400 rounded-t-xl" style="height: 70%"></div>
                         <div class="flex-1 bg-blue-500 rounded-t-xl" style="height: 85%"></div>
                         <div class="flex-1 bg-blue-200 rounded-t-xl" style="height: 50%"></div>
                     </div>
-                </div>
-                <!-- Floating Elements -->
-                <div class="absolute top-10 right-10 bg-white p-4 rounded-2xl shadow-xl animate-float border border-blue-50">
-                    <i data-lucide="sun" class="text-yellow-500 fill-yellow-500"></i>
-                </div>
-                <div class="absolute bottom-10 left-10 bg-white p-4 rounded-2xl shadow-xl animate-float border border-green-50" style="animation-delay: 1s">
-                    <i data-lucide="leaf" class="text-green-500 fill-green-500"></i>
                 </div>
             </div>
         </div>
@@ -125,29 +125,27 @@
 
     <!-- Features -->
     <section id="solutions" class="bg-white py-24 border-y border-slate-100">
-        <div class="container mx-auto px-6">
-            <div class="grid md:grid-cols-3 gap-12">
-                <div class="space-y-4 text-center md:text-left">
-                    <div class="mx-auto md:mx-0 w-14 h-14 bg-blue-50 text-blue-600 flex items-center justify-center rounded-2xl">
-                        <i data-lucide="zap"></i>
-                    </div>
-                    <h3 class="text-2xl font-black">Real-time Monitoring</h3>
-                    <p class="text-slate-500 font-medium leading-relaxed">See exactly where every watt goes in real-time with our proprietary smart grid technology.</p>
+        <div class="container mx-auto px-6 grid md:grid-cols-3 gap-12">
+            <div class="space-y-4">
+                <div class="w-14 h-14 bg-blue-50 text-blue-600 flex items-center justify-center rounded-2xl">
+                    <i data-lucide="zap"></i>
                 </div>
-                <div class="space-y-4 text-center md:text-left">
-                    <div class="mx-auto md:mx-0 w-14 h-14 bg-green-50 text-green-600 flex items-center justify-center rounded-2xl">
-                        <i data-lucide="leaf"></i>
-                    </div>
-                    <h3 class="text-2xl font-black">Eco-Optimization</h3>
-                    <p class="text-slate-500 font-medium leading-relaxed">Our AI automatically switches high-power devices to solar when production peaks and rates drop.</p>
+                <h3 class="text-2xl font-black">Real-time Monitoring</h3>
+                <p class="text-slate-500 font-medium">See exactly where every watt goes in real-time.</p>
+            </div>
+            <div class="space-y-4">
+                <div class="w-14 h-14 bg-green-50 text-green-600 flex items-center justify-center rounded-2xl">
+                    <i data-lucide="leaf"></i>
                 </div>
-                <div class="space-y-4 text-center md:text-left">
-                    <div class="mx-auto md:mx-0 w-14 h-14 bg-purple-50 text-purple-600 flex items-center justify-center rounded-2xl">
-                        <i data-lucide="bell"></i>
-                    </div>
-                    <h3 class="text-2xl font-black">Smart Alerts</h3>
-                    <p class="text-slate-500 font-medium leading-relaxed">Get notified before demand surges and save significantly on your monthly energy bill.</p>
+                <h3 class="text-2xl font-black">Eco-Optimization</h3>
+                <p class="text-slate-500 font-medium">AI automatically switches to solar when production peaks.</p>
+            </div>
+            <div class="space-y-4">
+                <div class="w-14 h-14 bg-purple-50 text-purple-600 flex items-center justify-center rounded-2xl">
+                    <i data-lucide="bell"></i>
                 </div>
+                <h3 class="text-2xl font-black">Smart Alerts</h3>
+                <p class="text-slate-500 font-medium">Get notified before demand surges.</p>
             </div>
         </div>
     </section>
@@ -155,92 +153,35 @@
     <!-- AI Eco-Planner Section -->
     <section id="planner" class="bg-blue-900 text-white py-24 relative overflow-hidden">
         <div class="container mx-auto px-6 text-center max-w-4xl relative z-10">
-            <div class="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full text-blue-200 text-xs font-bold mb-8 tracking-widest uppercase border border-white/10">
-                <i data-lucide="sparkles" class="w-4 h-4"></i> Powered by Gemini
-            </div>
-            <h2 class="text-5xl font-black mb-6 leading-tight">Draft Your Custom <span class="text-blue-400">AI Energy Plan</span></h2>
-            <p class="text-blue-100 text-lg mb-12 opacity-80 font-medium">Describe your home setup, and our AI will generate a high-tech efficiency strategy for you.</p>
-            
+            <h2 class="text-5xl font-black mb-6">Draft Your Custom <span class="text-blue-400">AI Energy Plan</span></h2>
             <div class="bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/10 text-left shadow-2xl">
                 <div class="flex flex-col md:flex-row gap-4 mb-6">
-                    <input 
-                        id="plan-input"
-                        type="text" 
-                        placeholder="e.g., '3 bedroom house, electric car, high AC usage in summer'..."
-                        class="flex-1 bg-white/5 border border-white/20 rounded-2xl px-6 py-5 text-white placeholder:text-white/40 focus:outline-none focus:border-blue-400 transition-all font-medium"
-                    >
-                    <button 
-                        id="generate-plan-btn"
-                        class="bg-blue-500 hover:bg-blue-400 disabled:opacity-50 text-white px-10 py-5 rounded-2xl font-black transition-all flex items-center justify-center gap-2"
-                    >
-                        <i data-lucide="zap" class="w-5 h-5 fill-current"></i>
-                        <span>Generate Plan</span>
+                    <input id="plan-input" type="text" placeholder="e.g., '3 bedroom house, electric car'..." class="flex-1 bg-white/10 border border-white/20 rounded-2xl px-6 py-4 text-white focus:outline-none">
+                    <button id="generate-plan-btn" class="bg-blue-500 text-white px-10 py-4 rounded-2xl font-black flex items-center gap-2">
+                        <i data-lucide="zap" class="w-5 h-5"></i><span>Generate</span>
                     </button>
                 </div>
-
-                <div id="plan-result" class="hidden animate-in fade-in slide-in-from-top-4 duration-500">
-                    <div class="h-px bg-white/10 mb-6"></div>
-                    <div class="flex items-center gap-3 text-blue-300 font-black mb-4 uppercase text-xs tracking-widest">
-                        <i data-lucide="file-text" class="w-4 h-4"></i> Strategy Report
-                    </div>
-                    <div id="plan-text" class="text-blue-50 font-medium leading-relaxed whitespace-pre-wrap text-lg">
-                        <!-- Generated plan appears here -->
-                    </div>
+                <div id="plan-result" class="hidden">
+                    <div id="plan-text" class="text-blue-50 font-medium leading-relaxed whitespace-pre-wrap"></div>
                 </div>
             </div>
         </div>
-        <!-- Background Accents -->
-        <div class="absolute top-0 left-0 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2"></div>
-        <div class="absolute bottom-0 right-0 w-96 h-96 bg-blue-400/20 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2"></div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-slate-950 text-white py-20">
-        <div class="container mx-auto px-6 grid md:grid-cols-4 gap-12">
-            <div class="col-span-2 space-y-6">
-                <div class="flex items-center gap-2 text-3xl font-black text-blue-500">
-                    <i data-lucide="zap" class="fill-current"></i>
-                    <span>Voltora</span>
-                </div>
-                <p class="text-slate-400 max-w-sm font-medium leading-relaxed">
-                    Making the world's energy grids more efficient, transparent, and sustainable through advanced AI and smart hardware.
-                </p>
-            </div>
-            <div class="space-y-4">
-                <h4 class="font-black text-lg">Platform</h4>
-                <ul class="space-y-2 text-slate-400 font-medium">
-                    <li><a href="#" class="hover:text-white transition-colors">Residential</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Commercial</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Solar Integration</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Smart Grid API</a></li>
-                </ul>
-            </div>
-            <div class="space-y-4">
-                <h4 class="font-black text-lg">Company</h4>
-                <ul class="space-y-2 text-slate-400 font-medium">
-                    <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Sustainability</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
-                    <li><a href="#" class="hover:text-white transition-colors">Press</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="container mx-auto px-6 pt-20 mt-20 border-t border-white/5 text-center text-slate-600 text-sm font-bold">
-            &copy; 2024 Voltora Energy Systems Inc. All rights reserved.
+    <footer class="bg-slate-950 text-white py-20 text-center">
+        <div class="container mx-auto px-6">
+            <p class="text-slate-600 font-bold">&copy; 2024 Voltora Energy Systems Inc.</p>
         </div>
     </footer>
 
     <script>
         // Initialize Icons
-        lucide.createIcons();
+        if (typeof lucide !== 'undefined') lucide.createIcons();
 
         // Gemini API Configuration
-        const apiKey = ""; // The environment provides the key at runtime.
+        const apiKey = ""; 
         const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
 
-        /**
-         * API Call with Exponential Backoff
-         */
         async function callGemini(prompt, systemInstruction = "", retries = 5, delay = 1000) {
             try {
                 const response = await fetch(`${API_URL}?key=${apiKey}`, {
@@ -251,52 +192,28 @@
                         systemInstruction: { parts: [{ text: systemInstruction }] }
                     })
                 });
-
-                if (!response.ok) throw new Error('API Error');
-                
                 const data = await response.json();
-                return data.candidates?.[0]?.content?.parts?.[0]?.text || "Strategy generation currently unavailable. Please try again.";
+                return data.candidates?.[0]?.content?.parts?.[0]?.text || "Check back soon!";
             } catch (error) {
                 if (retries > 0) {
                     await new Promise(r => setTimeout(r, delay));
                     return callGemini(prompt, systemInstruction, retries - 1, delay * 2);
                 }
-                return "I couldn't connect to the AI core. Check your connection! ⚡";
+                return "AI connection lost. ⚡";
             }
         }
 
-        // --- ECO PLAN GENERATOR LOGIC ---
-        const planInput = document.getElementById('plan-input');
         const planBtn = document.getElementById('generate-plan-btn');
         const planResult = document.getElementById('plan-result');
         const planText = document.getElementById('plan-text');
 
         planBtn.addEventListener('click', async () => {
-            const description = planInput.value.trim();
-            if (!description) return;
-
-            planBtn.disabled = true;
-            planBtn.innerHTML = `
-                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                <span>Calculating...</span>
-            `;
-
-            const prompt = `User Home Setup: "${description}". Generate a personalized 3-step energy efficiency strategy for them. Be specific and high-tech.`;
-            const systemPrompt = "You are Voltora's AI planning engine. Provide clear, professional, and actionable energy advice.";
-            
-            const result = await callGemini(prompt, systemPrompt);
-            
+            const description = document.getElementById('plan-input').value;
+            planBtn.innerText = "Thinking...";
+            const result = await callGemini(description, "You are a specialized energy optimization engine.");
             planText.textContent = result;
             planResult.classList.remove('hidden');
-            planBtn.disabled = false;
-            planBtn.innerHTML = `<i data-lucide="zap" class="w-5 h-5 fill-current"></i><span>Generate Plan</span>`;
-            lucide.createIcons();
-            
-            // Scroll to the result
-            planResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            planBtn.innerText = "Generate";
         });
     </script>
 </body>
