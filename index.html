@@ -5,172 +5,429 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voltora | The Future of Smart Energy</title>
     
-    <!-- Robust CDN loading with Fallback check -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide is kept for icons, but CSS is now fully self-contained -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Standard CSS Fallback in case Tailwind CDN is blocked -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
         
+        /* --- BRAND DESIGN TOKENS --- */
         :root {
-            --voltora-blue: #2563eb;
-            --voltora-dark: #0f172a;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-600: #475569;
+            --slate-900: #0f172a;
+            --slate-950: #020617;
+            --white: #ffffff;
+            --green-50: #f0fdf4;
+            --green-600: #16a34a;
+            --purple-50: #faf5ff;
+            --purple-600: #9333ea;
+            --blue-900: #1e3a8a;
+            --blue-400: #60a5fa;
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-blue: 0 10px 15px -3px rgba(37, 99, 235, 0.2);
         }
 
+        /* --- RESET & BASE --- */
+        * { box-sizing: border-box; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f8fafc;
-            color: #0f172a;
+            background-color: var(--slate-50);
+            color: var(--slate-900);
             line-height: 1.5;
+            scroll-behavior: smooth;
         }
 
-        /* Basic Structural Fallback if Tailwind fails */
-        nav { background: white; border-bottom: 1px solid #e2e8f0; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 50; }
-        .hero { padding: 80px 5%; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; }
-        .hero-content { flex: 1; min-width: 300px; }
-        .btn-primary { background: var(--voltora-blue); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: bold; cursor: pointer; }
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; padding: 60px 5%; background: white; }
-        
-        /* Interactive Planner Styles */
-        .planner-section { background: #1e3a8a; color: white; padding: 80px 5%; text-align: center; }
-        .planner-container { max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.05); padding: 40px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); text-align: left; }
-        input[type="text"] { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 15px; box-sizing: border-box; }
-        
-        /* Animations */
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        .animate-float { animation: float 4s ease-in-out infinite; }
+        /* --- LAYOUT COMPONENTS --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .flex-col { flex-direction: column; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .gap-10 { gap: 40px; }
+        .gap-16 { gap: 64px; }
+
+        /* --- NAVIGATION --- */
+        nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--slate-100);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            padding: 16px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-links {
+            display: none; /* Mobile hidden by default */
+        }
+
+        @media (min-width: 768px) {
+            .nav-links { display: flex; }
+            .hero-wrapper { flex-direction: row !important; }
+            .feature-grid { grid-template-columns: repeat(3, 1fr) !important; }
+            .planner-form { flex-direction: row !important; }
+        }
+
+        .nav-link {
+            color: var(--slate-500);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover { color: var(--primary); }
+
+        /* --- BUTTONS --- */
+        .btn {
+            font-family: inherit;
+            cursor: pointer;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 10px 24px;
+            border: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+            box-shadow: var(--shadow-blue);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background-color: var(--white);
+            color: var(--slate-700);
+            border: 2px solid var(--slate-200);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--slate-50);
+        }
+
+        .btn-large {
+            padding: 16px 32px;
+            font-size: 18px;
+            border-radius: 16px;
+        }
+
+        /* --- HERO --- */
+        .hero { padding: 96px 0; }
+        .hero-wrapper { display: flex; flex-direction: column; align-items: center; gap: 64px; }
+        .hero-content { flex: 1; }
+        .hero-visual { flex: 1; position: relative; width: 100%; }
+
+        .badge {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            font-size: clamp(40px, 8vw, 72px);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+            margin: 0 0 32px 0;
+        }
+
+        .text-primary { color: var(--primary); }
+
+        .hero-description {
+            font-size: 20px;
+            color: var(--slate-500);
+            font-weight: 500;
+            max-width: 512px;
+            margin-bottom: 32px;
+        }
+
+        .visual-container {
+            background-color: #dbeafe;
+            border-radius: 48px;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px;
+            position: relative;
+        }
+
+        .usage-card {
+            background-color: var(--white);
+            padding: 32px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-xl);
+            width: 100%;
+            transform: rotate(3deg);
+            position: relative;
+            z-index: 10;
+        }
+
+        .usage-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            height: 192px;
+            margin-top: 32px;
+        }
+
+        .chart-bar { border-radius: 8px 8px 0 0; flex: 1; transition: height 0.3s; }
+
+        /* --- FEATURES --- */
+        .features {
+            background-color: var(--white);
+            padding: 96px 0;
+            border-top: 1px solid var(--slate-100);
+            border-bottom: 1px solid var(--slate-100);
+        }
+
+        .feature-grid { display: grid; grid-template-columns: 1fr; gap: 48px; }
+
+        .feature-card { display: flex; flex-direction: column; gap: 16px; }
+
+        .icon-box {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-title { font-size: 24px; font-weight: 900; margin: 0; }
+        .feature-text { color: var(--slate-500); font-weight: 500; margin: 0; }
+
+        /* --- PLANNER --- */
+        .planner {
+            background-color: var(--blue-900);
+            color: var(--white);
+            padding: 96px 0;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .planner h2 { font-size: 48px; font-weight: 900; margin-bottom: 24px; }
+        .planner p { color: #dbeafe; font-size: 18px; margin-bottom: 48px; opacity: 0.8; }
+
+        .planner-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            padding: 32px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .planner-form { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+
+        input[type="text"] {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 16px 24px;
+            color: var(--white);
+            font-family: inherit;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus { border-color: var(--blue-400); }
+
+        .plan-result {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .plan-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--blue-400);
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+        }
+
+        .plan-text { color: #eff6ff; white-space: pre-wrap; font-weight: 500; font-size: 18px; }
+
+        /* --- FOOTER --- */
+        footer { background-color: var(--slate-950); color: var(--white); padding: 80px 0; text-align: center; }
+        .footer-text { color: var(--slate-600); font-weight: 700; margin: 0; }
+
+        /* --- UTILS --- */
+        .hidden { display: none; }
+        .fill-current { fill: currentColor; }
     </style>
-
-    <script>
-        // Tailwind Configuration to ensure it works even in restricted environments
-        if (typeof tailwind !== 'undefined') {
-            tailwind.config = {
-                theme: {
-                    extend: {
-                        colors: {
-                            voltora: {
-                                blue: '#2563eb',
-                                dark: '#0f172a',
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    </script>
 </head>
-<body class="bg-slate-50 text-slate-900">
+<body>
 
     <!-- Navigation -->
-    <nav class="bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-50 px-6 py-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-2 text-2xl font-black text-blue-600">
+    <nav>
+        <div class="container flex justify-between items-center">
+            <a href="#" class="logo">
                 <i data-lucide="zap" class="fill-current"></i>
                 <span>Voltora</span>
+            </a>
+            <div class="nav-links gap-10 items-center">
+                <a href="#solutions" class="nav-link">Solutions</a>
+                <a href="#planner" class="nav-link">Eco-Planner</a>
+                <a href="#" class="nav-link">Support</a>
             </div>
-            <div class="hidden md:flex gap-10 font-bold text-slate-500 text-sm">
-                <a href="#solutions" class="hover:text-blue-600">Solutions</a>
-                <a href="#planner" class="hover:text-blue-600">Eco-Planner</a>
-                <a href="#" class="hover:text-blue-600">Support</a>
-            </div>
-            <button class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all">
-                Join Now
-            </button>
+            <button class="btn btn-primary">Join Now</button>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <header class="container mx-auto px-6 py-24 flex flex-col md:flex-row items-center gap-16">
-        <div class="flex-1 space-y-8">
-            <div class="inline-flex items-center gap-2 bg-blue-50 text-blue-600 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest">
-                <i data-lucide="sparkles" class="w-4 h-4"></i> Energy Reimagined
+    <header class="hero">
+        <div class="container hero-wrapper">
+            <div class="hero-content">
+                <div class="badge">
+                    <i data-lucide="sparkles" style="width: 16px; height: 16px;"></i> Energy Reimagined
+                </div>
+                <h1>The future of energy is <span class="text-primary">smarter.</span></h1>
+                <p class="hero-description">
+                    Connect your home to the grid of tomorrow. Save up to 25% on bills with AI-driven optimization.
+                </p>
+                <div class="flex gap-4">
+                    <button class="btn btn-primary btn-large">Get Started</button>
+                    <button class="btn btn-secondary btn-large">View Demo</button>
+                </div>
             </div>
-            <h1 class="text-6xl md:text-7xl font-black leading-tight tracking-tighter text-slate-900">
-                The future of energy is <span class="text-blue-600">smarter.</span>
-            </h1>
-            <p class="text-xl text-slate-500 max-w-lg font-medium leading-relaxed">
-                Connect your home to the grid of tomorrow. Save up to 25% on bills with AI-driven optimization.
-            </p>
-            <div class="flex gap-4 pt-4">
-                <button class="bg-blue-600 text-white px-8 py-4 rounded-2xl text-lg font-bold hover:shadow-2xl transition-all">
-                    Get Started
-                </button>
-                <button class="bg-white border-2 border-slate-200 text-slate-700 px-8 py-4 rounded-2xl text-lg font-bold hover:bg-slate-50 transition-all">
-                    View Demo
-                </button>
-            </div>
-        </div>
-        
-        <div class="flex-1 relative">
-            <div class="w-full aspect-square bg-blue-100 rounded-[3rem] overflow-hidden flex items-center justify-center p-12 relative">
-                <div class="bg-white p-8 rounded-3xl shadow-2xl w-full transform rotate-3 relative z-10">
-                    <div class="flex justify-between items-center mb-8">
-                        <h3 class="font-black text-xl">Weekly Usage</h3>
-                        <i data-lucide="bar-chart-3" class="text-blue-600"></i>
-                    </div>
-                    <div class="flex items-end gap-3 h-48">
-                        <div class="flex-1 bg-blue-100 rounded-t-xl" style="height: 40%"></div>
-                        <div class="flex-1 bg-blue-200 rounded-t-xl" style="height: 65%"></div>
-                        <div class="flex-1 bg-blue-600 rounded-t-xl shadow-lg" style="height: 90%"></div>
-                        <div class="flex-1 bg-blue-500 rounded-t-xl" style="height: 85%"></div>
-                        <div class="flex-1 bg-blue-200 rounded-t-xl" style="height: 50%"></div>
+            
+            <div class="hero-visual">
+                <div class="visual-container">
+                    <div class="usage-card">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 style="margin:0; font-weight: 900; font-size: 20px;">Weekly Usage</h3>
+                                <p style="margin:0; font-size: 12px; color: var(--slate-400);">Real-time analytics</p>
+                            </div>
+                            <i data-lucide="bar-chart-3" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="usage-chart">
+                            <div class="chart-bar" style="height: 40%; background: #dbeafe;"></div>
+                            <div class="chart-bar" style="height: 65%; background: #bfdbfe;"></div>
+                            <div class="chart-bar" style="height: 90%; background: var(--primary); box-shadow: var(--shadow-blue);"></div>
+                            <div class="chart-bar" style="height: 85%; background: #3b82f6;"></div>
+                            <div class="chart-bar" style="height: 50%; background: #bfdbfe;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Features -->
-    <section id="solutions" class="bg-white py-24 border-y border-slate-100">
-        <div class="container mx-auto px-6 grid md:grid-cols-3 gap-12">
-            <div class="space-y-4">
-                <div class="w-14 h-14 bg-blue-50 text-blue-600 flex items-center justify-center rounded-2xl">
-                    <i data-lucide="zap"></i>
+    <!-- Features Section -->
+    <section id="solutions" class="features">
+        <div class="container">
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="icon-box" style="background: var(--primary-light); color: var(--primary);">
+                        <i data-lucide="zap"></i>
+                    </div>
+                    <h3 class="feature-title">Real-time Monitoring</h3>
+                    <p class="feature-text">See exactly where every watt goes in real-time with our smart grid technology.</p>
                 </div>
-                <h3 class="text-2xl font-black">Real-time Monitoring</h3>
-                <p class="text-slate-500 font-medium">See exactly where every watt goes in real-time.</p>
-            </div>
-            <div class="space-y-4">
-                <div class="w-14 h-14 bg-green-50 text-green-600 flex items-center justify-center rounded-2xl">
-                    <i data-lucide="leaf"></i>
+                <div class="feature-card">
+                    <div class="icon-box" style="background: var(--green-50); color: var(--green-600);">
+                        <i data-lucide="leaf"></i>
+                    </div>
+                    <h3 class="feature-title">Eco-Optimization</h3>
+                    <p class="feature-text">AI automatically switches to solar production when generation peaks.</p>
                 </div>
-                <h3 class="text-2xl font-black">Eco-Optimization</h3>
-                <p class="text-slate-500 font-medium">AI automatically switches to solar when production peaks.</p>
-            </div>
-            <div class="space-y-4">
-                <div class="w-14 h-14 bg-purple-50 text-purple-600 flex items-center justify-center rounded-2xl">
-                    <i data-lucide="bell"></i>
+                <div class="feature-card">
+                    <div class="icon-box" style="background: var(--purple-50); color: var(--purple-600);">
+                        <i data-lucide="bell"></i>
+                    </div>
+                    <h3 class="feature-title">Smart Alerts</h3>
+                    <p class="feature-text">Get notified before demand surges and save significantly on your monthly bill.</p>
                 </div>
-                <h3 class="text-2xl font-black">Smart Alerts</h3>
-                <p class="text-slate-500 font-medium">Get notified before demand surges.</p>
             </div>
         </div>
     </section>
 
     <!-- AI Eco-Planner Section -->
-    <section id="planner" class="bg-blue-900 text-white py-24 relative overflow-hidden">
-        <div class="container mx-auto px-6 text-center max-w-4xl relative z-10">
-            <h2 class="text-5xl font-black mb-6">Draft Your Custom <span class="text-blue-400">AI Energy Plan</span></h2>
-            <div class="bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/10 text-left shadow-2xl">
-                <div class="flex flex-col md:flex-row gap-4 mb-6">
-                    <input id="plan-input" type="text" placeholder="e.g., '3 bedroom house, electric car'..." class="flex-1 bg-white/10 border border-white/20 rounded-2xl px-6 py-4 text-white focus:outline-none">
-                    <button id="generate-plan-btn" class="bg-blue-500 text-white px-10 py-4 rounded-2xl font-black flex items-center gap-2">
-                        <i data-lucide="zap" class="w-5 h-5"></i><span>Generate</span>
+    <section id="planner" class="planner">
+        <div class="container">
+            <h2>Draft Your Custom <span style="color: var(--blue-400);">AI Energy Plan</span></h2>
+            <p>Describe your home setup, and our AI will generate a high-tech efficiency strategy for you.</p>
+            
+            <div class="planner-card">
+                <div class="planner-form">
+                    <input id="plan-input" type="text" placeholder="e.g., '3 bedroom house, electric car'...">
+                    <button id="generate-plan-btn" class="btn btn-primary" style="padding: 16px 32px;">
+                        <i data-lucide="zap"></i><span>Generate</span>
                     </button>
                 </div>
-                <div id="plan-result" class="hidden">
-                    <div id="plan-text" class="text-blue-50 font-medium leading-relaxed whitespace-pre-wrap"></div>
+                <div id="plan-result" class="plan-result hidden">
+                    <div class="plan-header">
+                        <i data-lucide="file-text" style="width: 14px; height: 14px;"></i> Strategy Report
+                    </div>
+                    <div id="plan-text" class="plan-text"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-slate-950 text-white py-20 text-center">
-        <div class="container mx-auto px-6">
-            <p class="text-slate-600 font-bold">&copy; 2024 Voltora Energy Systems Inc.</p>
+    <footer>
+        <div class="container">
+            <p class="footer-text">&copy; 2024 Voltora Energy Systems Inc. All rights reserved.</p>
         </div>
     </footer>
 
@@ -193,13 +450,13 @@
                     })
                 });
                 const data = await response.json();
-                return data.candidates?.[0]?.content?.parts?.[0]?.text || "Check back soon!";
+                return data.candidates?.[0]?.content?.parts?.[0]?.text || "Strategy report currently unavailable.";
             } catch (error) {
                 if (retries > 0) {
                     await new Promise(r => setTimeout(r, delay));
                     return callGemini(prompt, systemInstruction, retries - 1, delay * 2);
                 }
-                return "AI connection lost. ⚡";
+                return "AI connection failed. ⚡";
             }
         }
 
@@ -209,11 +466,20 @@
 
         planBtn.addEventListener('click', async () => {
             const description = document.getElementById('plan-input').value;
-            planBtn.innerText = "Thinking...";
-            const result = await callGemini(description, "You are a specialized energy optimization engine.");
+            if (!description.trim()) return;
+            
+            planBtn.innerHTML = "Thinking...";
+            planBtn.disabled = true;
+            
+            const result = await callGemini(description, "You are a specialized energy optimization engine for Voltora. Provide a structured, high-tech energy saving plan.");
+            
             planText.textContent = result;
             planResult.classList.remove('hidden');
-            planBtn.innerText = "Generate";
+            planBtn.innerHTML = '<i data-lucide="zap"></i><span>Generate</span>';
+            planBtn.disabled = false;
+            lucide.createIcons();
+            
+            planResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         });
     </script>
 </body>
